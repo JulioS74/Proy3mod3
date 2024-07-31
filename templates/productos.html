@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ff6f61;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        nav a {
+            margin: 0 15px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .product-item {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            width: calc(33.333% - 20px);
+        }
+        .product-item h3 {
+            margin-top: 0;
+            color: #ff6f61;
+        }
+        .product-item form {
+            margin-top: 10px;
+        }
+        .product-item button {
+            background-color: #ff6f61;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .product-item button:hover {
+            background-color: #e55d50;
+        }
+        .rentabilidad {
+            margin-top: 20px;
+            background-color: #ffefef;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Productos</h1>
+        <nav>
+            <a href="{{ url_for('main') }}">Inicio</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('listar_productos') }}">Productos</a>
+                {% if current_user.is_admin %}
+                    <a href="{{ url_for('listar_ingredientes') }}">Ingredientes</a>
+                {% endif %}
+                <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Iniciar sesión</a>
+            {% endif %}
+        </nav>
+    </header>
+    <div class="container">
+        <div class="product-list">
+            {% for producto in productos %}
+            <div class="product-item">
+                <h3>{{ producto.nombre }}</h3>
+                <p>Precio: ${{ producto.precio }}</p>
+                <a href="{{ url_for('detalle_producto', producto_id=producto.id) }}">Ver detalles</a>
+                {% if current_user.is_authenticated and current_user.is_cliente_registrado() %}
+                <form action="{{ url_for('comprar_producto', producto_id=producto.id) }}" method="post">
+                    <button type="submit">Comprar</button>
+                </form>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% if rentabilidad is not none %}
+        <div class="rentabilidad">
+            <h3>Rentabilidad</h3>
+            <p>La rentabilidad total es: ${{ rentabilidad }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

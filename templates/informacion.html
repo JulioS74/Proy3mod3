@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información de la Heladería</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #343a40;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .info-item {
+            margin-bottom: 15px;
+        }
+        .info-title {
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+        .info-content {
+            color: #495057;
+        }
+        .info-content span {
+            font-weight: 700;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Información de la Heladería</h1>
+        {% for info in informacion %}
+        <div class="info-item">
+            <div class="info-title">Nombre</div>
+            <div class="info-content">{{ info.nombre }}</div>
+        </div>
+        <div class="info-item">
+            <div class="info-title">Dirección</div>
+            <div class="info-content">{{ info.direccion }}</div>
+        </div>
+        <div class="info-item">
+            <div class="info-title">Teléfono</div>
+            <div class="info-content">{{ info.telefono }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

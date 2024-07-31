@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingredientes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ff6f61;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        nav a {
+            margin: 0 15px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .ingredient-list {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .ingredient-item {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 20px;
+            width: calc(33.333% - 20px);
+        }
+        .ingredient-item h3 {
+            margin-top: 0;
+            color: #ff6f61;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ingredientes</h1>
+        <nav>
+            <a href="/">Inicio</a>
+            <a href="/informacion">Información</a>
+            <a href="/productos">Productos</a>
+            <a href="/ingredientes">Ingredientes</a>
+            <a href="/login">Iniciar Sesión</a>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="ingredient-list">
+            {% for ingrediente in ingredientes %}
+            <div class="ingredient-item">
+                <h3>{{ ingrediente.nombre }}</h3>
+                <p>Precio: ${{ ingrediente.precio }}</p>
+                <p>Calorías: {{ ingrediente.calorias }}</p>
+                <p>Inventario: {{ ingrediente.inventario }}</p>
+                <p>Vegetariano: {{ 'Sí' if ingrediente.es_vegetariano else 'No' }}</p>
+                <a href="/ingrediente/{{ ingrediente.id }}">Ver detalles</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
