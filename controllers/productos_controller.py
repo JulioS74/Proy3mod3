@@ -4,7 +4,7 @@ from models.productos import Productos
 from db import db
 
 class ProductosController(Resource):
-
+    # Método GET para obtener productos
     def get(self, producto_id=None, nombre=None, calorias=None, rentabilidad=None, costoproduccion=None):
         if producto_id:
             producto = Productos.query.get(producto_id)
@@ -38,7 +38,7 @@ class ProductosController(Resource):
 
         productos = Productos.query.all()
         return [producto.json() for producto in productos]
-
+    # Método POST para agregar un nuevo producto
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('nombre', type=str, required=True)
@@ -58,7 +58,7 @@ class ProductosController(Resource):
         db.session.add(producto)
         db.session.commit()
         return producto.json(), 201
-
+    # Método PUT para actualizar un producto
     def put(self, producto_id):
         parser = reqparse.RequestParser()
         parser.add_argument('nombre', type=str)
@@ -85,7 +85,7 @@ class ProductosController(Resource):
 
         db.session.commit()
         return producto.json()
-
+    # Método DELETE para eliminar un producto
     def delete(self, producto_id):
         producto = Productos.query.get(producto_id)
         if not producto:
@@ -94,8 +94,12 @@ class ProductosController(Resource):
         db.session.delete(producto)
         db.session.commit()
         return {'message': 'Producto eliminado'}
-
-    def post_reabastecer(self, producto_id, cantidad):
+    # Método POST para reabastecer el producto
+    def post_reabastecer(self, producto_id):
+        parser = reqparse.RequestParser()
+        parser.add_argument('cantidad', type=int, required=True)
+        args = parser.parse_args()
+        cantidad = args['cantidad']
         producto = Productos.query.get(producto_id)
         if not producto:
             return {'message': 'Producto no encontrado'}, 404
@@ -103,7 +107,8 @@ class ProductosController(Resource):
         producto.reabastecer(cantidad)
         db.session.commit()
         return {'message': 'Producto reabastecido'}
-
+    
+    # Método POST para renovar el inventario del producto
     def post_renovar(self, producto_id):
         producto = Productos.query.get(producto_id)
         if not producto:
@@ -112,7 +117,8 @@ class ProductosController(Resource):
         producto.renovar_inventario()
         db.session.commit()
         return {'message': 'Inventario renovado'}
-
+    
+    # Método POST para vender un producto
     def post_vender(self, producto_id):
         producto = Productos.query.get(producto_id)
         if not producto:
