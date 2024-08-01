@@ -4,6 +4,7 @@ from models.productos import Productos
 from db import db
 
 class ProductosController(Resource):
+    
     # Método GET para obtener productos
     def get(self, producto_id=None, nombre=None, calorias=None, rentabilidad=None, costoproduccion=None):
         if producto_id:
@@ -38,26 +39,7 @@ class ProductosController(Resource):
 
         productos = Productos.query.all()
         return [producto.json() for producto in productos]
-    # Método POST para agregar un nuevo producto
-    def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('nombre', type=str, required=True)
-        parser.add_argument('precio', type=int, required=True)
-        parser.add_argument('ingrediente1_id', type=int, required=True)
-        parser.add_argument('ingrediente2_id', type=int)
-        parser.add_argument('ingrediente3_id', type=int)
-        data = parser.parse_args()
-
-        producto = Productos(
-            nombre=data['nombre'],
-            precio=data['precio'],
-            ingrediente1_id=data['ingrediente1_id'],
-            ingrediente2_id=data.get('ingrediente2_id'),
-            ingrediente3_id=data.get('ingrediente3_id')
-        )
-        db.session.add(producto)
-        db.session.commit()
-        return producto.json(), 201
+    
     # Método PUT para actualizar un producto
     def put(self, producto_id):
         parser = reqparse.RequestParser()
@@ -85,7 +67,8 @@ class ProductosController(Resource):
 
         db.session.commit()
         return producto.json()
-    # Método DELETE para eliminar un producto
+    
+    # Método DELETE para eliminar un producto    
     def delete(self, producto_id):
         producto = Productos.query.get(producto_id)
         if not producto:
@@ -93,23 +76,11 @@ class ProductosController(Resource):
 
         db.session.delete(producto)
         db.session.commit()
-        return {'message': 'Producto eliminado'}
-    # Método POST para reabastecer el producto
-    def post_reabastecer(self, producto_id):
-        parser = reqparse.RequestParser()
-        parser.add_argument('cantidad', type=int, required=True)
-        args = parser.parse_args()
-        cantidad = args['cantidad']
-        producto = Productos.query.get(producto_id)
-        if not producto:
-            return {'message': 'Producto no encontrado'}, 404
-
-        producto.reabastecer(cantidad)
-        db.session.commit()
-        return {'message': 'Producto reabastecido'}
+        return {'message': 'Producto eliminado'}    
     
+
     # Método POST para renovar el inventario del producto
-    def post_renovar(self, producto_id):
+    def put(self, producto_id):
         producto = Productos.query.get(producto_id)
         if not producto:
             return {'message': 'Producto no encontrado'}, 404
@@ -117,9 +88,9 @@ class ProductosController(Resource):
         producto.renovar_inventario()
         db.session.commit()
         return {'message': 'Inventario renovado'}
-    
+
     # Método POST para vender un producto
-    def post_vender(self, producto_id):
+    def post(self, producto_id):
         producto = Productos.query.get(producto_id)
         if not producto:
             return {'message': 'Producto no encontrado'}, 404

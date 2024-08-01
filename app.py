@@ -14,6 +14,8 @@ from models.informacion import Informacion
 from controllers.productos_controller import ProductosController
 from controllers.ingredientes_controller import IngredientesController
 from controllers.informacion_controller import InformacionController
+from controllers.reabastecer_controller import ReabastecerController
+from controllers.renovar_controller import RenovarController
 
 # Cargar variables de entorno desde .env
 load_dotenv()
@@ -172,6 +174,13 @@ api.add_resource(IngredientesController,
 api.add_resource(InformacionController, 
     '/api/informacion', 
     '/api/informacion/<int:informacion_id>')
+
+api.add_resource(ReabastecerController, 
+    '/api/productos/reabastecer/<int:producto_id>/<int:reabastecer>')   
+
+api.add_resource(RenovarController, 
+    '/api/productos/renovar/<int:producto_id>/<int:renovar>')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
