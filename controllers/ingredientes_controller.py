@@ -1,3 +1,4 @@
+#controllers/ingredientes_controller.py
 from flask_restful import Resource, reqparse
 from models.ingredientes import Ingredientes
 from db import db
