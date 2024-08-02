@@ -1,3 +1,4 @@
+#controllres/porductos_controller.py
 from flask_restful import Resource, reqparse
 from models.productos import Productos
 from db import db
@@ -18,22 +19,22 @@ class ProductosController(Resource):
             return {'message': 'Producto no encontrado'}, 404
 
         if calorias is not None:
-            productos = Productos.query.filter_by(calorias=calorias).all()
-            if productos:
-                return [producto.json() for producto in productos]
-            return {'message': 'No se encontraron productos con esa cantidad de calorías'}, 404
+            producto = Productos.query.get(calorias)
+            if producto:
+                return {'calorias': producto.get_calorias()}
+            return {'message': 'Producto no encontrado'}, 404
 
         if rentabilidad is not None:
-            productos = Productos.query.filter_by(rentabilidad=rentabilidad).all()
-            if productos:
-                return [producto.json() for producto in productos]
-            return {'message': 'No se encontraron productos con esa rentabilidad'}, 404
+            producto = Productos.query.get(rentabilidad)
+            if producto:
+                return {'rentabilidad': producto.get_rentabilidad()}
+            return {'message': 'Producto no encontrado'}, 404
 
         if costoproduccion is not None:
-            productos = Productos.query.filter_by(costo_produccion=costoproduccion).all()
-            if productos:
-                return [producto.json() for producto in productos]
-            return {'message': 'No se encontraron productos con ese costo de producción'}, 404
+            producto = Productos.query.get(costoproduccion)
+            if producto:
+                return {'costo_produccion': producto.get_costo_de_produccion()}
+            return {'message': 'Producto no encontrado'}, 404
 
         productos = Productos.query.all()
         return [producto.json() for producto in productos]

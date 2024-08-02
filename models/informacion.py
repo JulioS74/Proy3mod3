@@ -1,3 +1,4 @@
+#models/informacion.py
 from db import db
 
 class Informacion(db.Model):

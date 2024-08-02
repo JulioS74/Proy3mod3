@@ -1,3 +1,4 @@
+#controllres/reabastecer_controller.py
 from flask_restful import Resource, reqparse
 from models.productos import Productos
 from db import db

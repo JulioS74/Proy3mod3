@@ -1,3 +1,4 @@
+#controllers/ingredientes_controller.py
 from flask_restful import Resource, reqparse
 from models.ingredientes import Ingredientes
 from db import db
@@ -18,10 +19,10 @@ class IngredientesController(Resource):
             return {'message': 'Ingrediente no encontrado'}, 404
 
         if sano is not None:
-            ingredientes = Ingredientes.query.filter_by(es_saludable=sano).all()
-            if ingredientes:
-                return [ingrediente.json() for ingrediente in ingredientes]
-            return {'message': 'No se encontraron ingredientes con ese estado de salud'}, 404
+            ingrediente = Ingredientes.query.get(sano)
+            if ingrediente:
+                return {'es_saludable': ingrediente.es_saludable()}
+            return {'message': 'Ingrediente no encontrado'}, 404
 
         ingredientes = Ingredientes.query.all()
         return [ingrediente.json() for ingrediente in ingredientes]

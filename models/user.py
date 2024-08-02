@@ -1,4 +1,4 @@
-#user.py
+#models/user.py
 from flask_login import UserMixin
 from db import db
 

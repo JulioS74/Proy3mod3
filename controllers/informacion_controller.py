@@ -1,3 +1,4 @@
+#controlers/informacion_controller.py
 from flask_restful import Resource
 from models.informacion import Informacion
 
