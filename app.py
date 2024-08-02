@@ -1,4 +1,3 @@
-#app.py
 from flask import Flask, render_template, request, redirect, url_for, abort, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
@@ -161,9 +160,7 @@ api.add_resource(ProductosController,
     '/api/productos/calorias/<int:calorias>',
     '/api/productos/rentabilidad/<int:rentabilidad>', 
     '/api/productos/costoproduccion/<int:costoproduccion>',
-    '/api/productos/vender/<int:producto_id>', 
-    '/api/productos/reabastecer/<int:producto_id>/<int:reabastecer>', 
-    '/api/productos/renovar/<int:producto_id>/<int:renovar>')
+    '/api/productos/vender/<int:producto_id>')
 
 api.add_resource(IngredientesController, 
     '/api/ingredientes', 
@@ -175,12 +172,11 @@ api.add_resource(InformacionController,
     '/api/informacion', 
     '/api/informacion/<int:informacion_id>')
 
-api.add_resource(ReabastecerController, 
-    '/api/productos/reabastecer/<int:producto_id>/<int:reabastecer>')   
+api.add_resource(ReabastecerController,
+    '/api/productos/reabastecer/<int:producto_id>/<int:reabastecer>')
 
-api.add_resource(RenovarController, 
-    '/api/productos/renovar/<int:producto_id>/<int:renovar>')
-
+api.add_resource(RenovarController,
+    '/api/productos/renovar/<int:producto_id>')
 
 if __name__ == "__main__":
     app.run(debug=True)
