@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import os
 
 from db import db
-from models.user import User
+from models.users import Users
 from models.productos import Productos
 from models.ingredientes import Ingredientes
 from models.informacion import Informacion
@@ -19,7 +19,7 @@ from controllers.renovar_controller import RenovarController
 
 # Cargar variables de entorno desde .env
 load_dotenv()
-
+#def crear_app():
 # Crear la aplicación Flask
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = f'mysql://{os.getenv("USER_DB")}:{os.getenv("PASSWORD_DB")}@{os.getenv("HOST_DB")}/{os.getenv("SCHEMA_DB")}'
@@ -34,7 +34,7 @@ login_manager.login_view = "login"  # Vista de login para redirección
 # Configurar la carga del usuario en Flask-Login
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(user_id)
+    return Users.query.get(user_id)
 
 # Ruta principal
 @app.route("/")
@@ -49,7 +49,7 @@ def login():
     else:
         username = request.form["username"]
         password = request.form["password"]
-        user = User.query.filter_by(username=username).first()
+        user = Users.query.filter_by(username=username).first()
         if user and user.password == password:
             login_user(user, remember=True)
             if user.is_admin_user():
